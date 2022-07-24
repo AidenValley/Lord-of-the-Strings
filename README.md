@@ -18,6 +18,7 @@ Git HTTPS: https://github.com/AidenValley/Lord-of-the-Strings.git
 
 
 - Technologies - 
+
 This project was designed to only use HTML, CSS, and JavaScript without any frameworks or external libraries.
 
 
