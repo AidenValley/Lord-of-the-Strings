@@ -11,9 +11,9 @@ const resetButton = document.querySelector('#resetButton');
 const gameWidth = tennisCanvas.width;
 const gameHeight = tennisCanvas.height;
 // ideas of CSS color properties
-const courtBackground = 'forestgreen';
-const racket1Color = 'dark-blue';
-const racket2Color = 'dark-orange';
+const courtBackground = 'yellowgreen';
+const racket1Color = 'skyblue';
+const racket2Color = 'orange';
 const racketBorder = 'black';
 const ballColor = 'yellow';
 const ballBorder = 'black';
@@ -86,7 +86,7 @@ function drawRackets(){
 
 function createTennisBall(){};
 function moveTennisBall(){};
-function drawTennisBall(){};
+function drawTennisBall(tennisBallX, tennisBallY){};
 function checkCollision(){};
 function changeDirection(event){
     const keyPress = event.keyCode;
