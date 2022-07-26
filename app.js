@@ -31,6 +31,7 @@ let tennisBallYDirection = 0;
 // Initial score sets of a player one and two.
 let playerOneScore = 0;
 let playerTwoScore = 0;
+// racketOne and racketTwo racket sizes
 let racketOne = {
     width: 25,
     height: 100,
@@ -57,7 +58,7 @@ function gameStart(){
     nextTick();
 };
 function nextTick(){
-    IntervalID = setTimeout(() => {
+    intervalID = setTimeout(() => {
         clearCourt();
         drawRackets();
         moveTennisBall();
@@ -88,17 +89,40 @@ function createTennisBall(){};
 function moveTennisBall(){};
 function drawTennisBall(tennisBallX, tennisBallY){};
 function checkCollision(){};
+
+// this function indicates the racket movements of only up and down
 function changeDirection(event){
     const keyPress = event.keyCode;
-    console.log(keyPress);
- };
+    const racketOneUp = 87;
+    const racketOneDown = 83;
+    const racketTwoUp = 38;
+    const racketTwoDown = 40;
+  // console.log(keyPress); able to indicate the numbers for racketOne and racketDown
+    switch(keyPress) {
+        case(racketOneUp):
+            if(racketOne.y > 0){
+                racketOne.y -= racketSpeed;
+            }
+            break;
+        case(racketOneDown):
+            if(racketOne.y < gameHeight - racketOne.height){
+                racketOne.y += racketSpeed;
+            }
+            break;
+        case(racketTwoUp):
+            if(racketTwo.y > 0){
+                racketTwo.y -= racketSpeed;
+            }
+            break;
+        case(racketTwoDown):
+            if(racketTwo.y < gameHeight - racketTwo.height){
+                racketTwo.y += racketSpeed;
+            }
+            break;
+    };
+}
 function updateScore(){};
 function resetGame(){}
 
 tennisCanvas.width = 500;
 tennisCanvas.height = 500;
-
-
-
-
-
