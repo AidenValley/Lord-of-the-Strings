@@ -1,6 +1,10 @@
 // First Initial Test
 console.log('lord of the strings');
 
+// ===========
+// VARIABLES
+//=============
+
 // Initial creation of the variables of each elements in HTML.
 const tennisCanvas = document.querySelector('#game');
 const tennisContext = tennisCanvas.getContext('2d');
@@ -21,8 +25,8 @@ const ballRadius = 12.5;
 const racketSpeed = 50;
 let IntervalID;
 // slowest speed set
-let ballspeed = 1;
-// tennis ball size
+let ballSpeed = 1;
+// tennis ball 
 let tennisBallX = gameWidth / 2;
 let tennisBallY = gameHeight / 2;
 // Ball direction sets
@@ -44,11 +48,14 @@ let racketTwo = {
     x: gameWidth - 25,
     y: gameHeight - 100
 };
+// ===========
+//=============
 
-// addEventlistener function goes here
+// ===========
+// addEventlistener
+//=============
 window.addEventListener('keydown', changeDirection);
 resetButton.addEventListener('click', resetGame);
-
 
 // function 
 gameStart();
@@ -85,10 +92,73 @@ function drawRackets(){
     tennisContext.strokeRect(racketTwo.x, racketTwo.y, racketTwo.width, racketTwo.height);
 };
 
-function createTennisBall(){};
-function moveTennisBall(){};
-function drawTennisBall(tennisBallX, tennisBallY){};
-function checkCollision(){};
+function createTennisBall(){
+    ballSpeed = 1;
+    if(Math.round(Math.random()) == 1){
+        tennisBallXDirection = 1;
+    } else {
+        tennisBallXDirection = -1;
+    }
+    if(Math.round(Math.random()) == 1){
+        tennisBallYDirection = 1;
+    } else {    
+        tennisBallYDirection = -1;
+    }
+    tennisBallX = gameWidth / 2;
+    tennisBallY = gameHeight / 2;
+    drawTennisBall(tennisBallX, tennisBallY);
+};
+
+function moveTennisBall(){
+    tennisBallX += (ballSpeed * tennisBallXDirection);
+    tennisBallY += (ballSpeed * tennisBallYDirection);
+};
+
+// actual physical tennisball looking structure on the page
+function drawTennisBall(tennisBallX, tennisBallY){
+    tennisContext.fillStyle = ballColor;
+    tennisContext.strokeStyle = ballBorder;
+    tennisContext.lineWidth = 2;
+    tennisContext.beginPath();
+    // arc method that includes BallX and BallY, targeting ballRadius with Math.PI(3.14159) property.
+    tennisContext.arc(tennisBallX, tennisBallY, ballRadius, 0, 2 * Math.PI); 
+    tennisContext.stroke();
+    tennisContext.fill();
+};
+function checkCollision(){
+    if(tennisBallY <= 0 + ballRadius) {
+        tennisBallYDirection *= -1;
+    }
+    if(tennisBallY >= gameHeight - ballRadius) {
+        tennisBallYDirection *= -1;
+    }
+    if(tennisBallX <= 0) {
+        playerTwoScore *= -1;
+        updateScore();
+        createTennisBall();
+        return;
+    }
+    if(tennisBallX >= gameWidth) {
+        playerOneScore *= -1;
+        updateScore();
+        createTennisBall();
+        return;
+    }
+
+    // logic when the ball hits the racket it bounces
+    if(tennisBallX <= (racketOne.x + racketOne.width + ballRadius)) {
+        if(tennisBallY > racketOne.y && tennisBallY < racketOne.y + racketOne.height) {
+            tennisBallXDirection *= -1;
+            ballSpeed += 1;
+        }
+    }
+    if(tennisBallX >= (racketTwo.x - ballRadius)) {
+        if(tennisBallY > racketTwo.y && tennisBallY < racketTwo.y + racketTwo.height) {
+            tennisBallXDirection *= -1;
+            ballSpeed += 1;
+        }
+    }
+};
 
 // this function indicates the racket movements of only up and down
 function changeDirection(event){
