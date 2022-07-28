@@ -10,7 +10,6 @@ const tennisCanvas = document.querySelector('#game');
 const tennisContext = tennisCanvas.getContext('2d');
 const scoreCourt = document.querySelector('#score-screen');
 const resetButton = document.querySelector('#resetButton');
-
 // canvas size
 const gameWidth = tennisCanvas.width;
 const gameHeight = tennisCanvas.height;
@@ -48,6 +47,8 @@ let racketTwo = {
     x: gameWidth - 25,
     y: gameHeight - 100
 };
+tennisCanvas.width = 1000;
+tennisCanvas.height = 500;
 // ===========
 //=============
 
@@ -60,7 +61,10 @@ resetButton.addEventListener('click', resetGame);
 // function 
 gameStart();
 
-function gameStart(){
+// ===========
+// The game begins with this function gameStart()
+// ===========
+function gameStart(){ // the game begins with a createTennisBall() and nextTick() function
     createTennisBall();
     nextTick();
 };
@@ -72,13 +76,15 @@ function nextTick(){
         drawTennisBall(tennisBallX, tennisBallY);
         checkCollision();
         nextTick();
-    }, 20)
+    }, 10)
 };
-function clearCourt(){
+function clearCourt(){ // initial setup of the tennis court
     tennisContext.fillStyle = courtBackground;
     tennisContext.fillRect(0, 0, gameWidth, gameHeight);
 };
-
+// ===========
+// Racket functions
+// ===========
 // function that represents the two player racket icons in the game
 function drawRackets(){
     tennisContext.strokeStyle = racketBorder;
@@ -91,76 +97,6 @@ function drawRackets(){
     tennisContext.fillRect(racketTwo.x, racketTwo.y, racketTwo.width, racketTwo.height);
     tennisContext.strokeRect(racketTwo.x, racketTwo.y, racketTwo.width, racketTwo.height);
 };
-
-function createTennisBall(){
-    ballSpeed = 1;
-    if(Math.round(Math.random()) == 1){
-        tennisBallXDirection = 1;
-    } else {
-        tennisBallXDirection = -1;
-    }
-    if(Math.round(Math.random()) == 1){
-        tennisBallYDirection = 1;
-    } else {    
-        tennisBallYDirection = -1;
-    }
-    tennisBallX = gameWidth / 2;
-    tennisBallY = gameHeight / 2;
-    drawTennisBall(tennisBallX, tennisBallY);
-};
-
-function moveTennisBall(){
-    tennisBallX += (ballSpeed * tennisBallXDirection);
-    tennisBallY += (ballSpeed * tennisBallYDirection);
-};
-
-// actual physical tennisball looking structure on the page
-function drawTennisBall(tennisBallX, tennisBallY){
-    tennisContext.fillStyle = ballColor;
-    tennisContext.strokeStyle = ballBorder;
-    tennisContext.lineWidth = 2;
-    tennisContext.beginPath();
-    // arc method that includes BallX and BallY, targeting ballRadius with Math.PI(3.14159) property.
-    tennisContext.arc(tennisBallX, tennisBallY, ballRadius, 0, 2 * Math.PI); 
-    tennisContext.stroke();
-    tennisContext.fill();
-};
-function checkCollision(){
-    if(tennisBallY <= 0 + ballRadius) {
-        tennisBallYDirection *= -1;
-    }
-    if(tennisBallY >= gameHeight - ballRadius) {
-        tennisBallYDirection *= -1;
-    }
-    if(tennisBallX <= 0) {
-        playerTwoScore *= -1;
-        updateScore();
-        createTennisBall();
-        return;
-    }
-    if(tennisBallX >= gameWidth) {
-        playerOneScore *= -1;
-        updateScore();
-        createTennisBall();
-        return;
-    }
-
-    // logic when the ball hits the racket it bounces
-    if(tennisBallX <= (racketOne.x + racketOne.width + ballRadius)) {
-        if(tennisBallY > racketOne.y && tennisBallY < racketOne.y + racketOne.height) {
-            tennisBallXDirection *= -1;
-            ballSpeed += 1;
-        }
-    }
-    if(tennisBallX >= (racketTwo.x - ballRadius)) {
-        if(tennisBallY > racketTwo.y && tennisBallY < racketTwo.y + racketTwo.height) {
-            tennisBallXDirection *= -1;
-            ballSpeed += 1;
-        }
-    }
-};
-
-// this function indicates the racket movements of only up and down
 function changeDirection(event){
     const keyPress = event.keyCode;
     const racketOneUp = 87;
@@ -190,9 +126,134 @@ function changeDirection(event){
             }
             break;
     };
-}
-function updateScore(){};
-function resetGame(){}
+};
+//=================
 
-tennisCanvas.width = 500;
-tennisCanvas.height = 500;
+
+// ===========
+//Tennis Ball functions 
+// ===========
+// actual physical tennisball looking structure on the page
+function drawTennisBall(tennisBallX, tennisBallY){
+    tennisContext.fillStyle = ballColor;
+    tennisContext.strokeStyle = ballBorder;
+    tennisContext.lineWidth = 2;
+    tennisContext.beginPath();
+    // arc method that includes BallX and BallY, targeting ballRadius with Math.PI(3.14159) property.
+    tennisContext.arc(tennisBallX, tennisBallY, ballRadius, 0, 2 * Math.PI); 
+    tennisContext.stroke();
+    tennisContext.fill();
+};
+function createTennisBall(){
+    ballSpeed = 1;
+    if(Math.round(Math.random()) == 1){
+        tennisBallXDirection = 1;
+    } else {
+        tennisBallXDirection = -1;
+    }
+    if(Math.round(Math.random()) == 1){
+        tennisBallYDirection = 1;
+    } else {    
+        tennisBallYDirection = -1;
+    }
+    tennisBallX = gameWidth / 2;
+    tennisBallY = gameHeight / 2;
+    drawTennisBall(tennisBallX, tennisBallY);
+};
+function moveTennisBall(){
+    tennisBallX += (ballSpeed * tennisBallXDirection);
+    tennisBallY += (ballSpeed * tennisBallYDirection);
+};
+function checkCollision(){
+    if(tennisBallY <= 0 + ballRadius) {
+        tennisBallYDirection *= -1;
+    }
+    if(tennisBallY >= gameHeight - ballRadius) {
+        tennisBallYDirection *= -1;
+    }
+    if(tennisBallX <= 0) { // this is the scoring logic added/implemented the tennis scoring rule.
+        if(playerTwoScore == 0 && playerTwoScore <= 15) {
+            playerTwoScore += 15;
+           } else if (playerTwoScore == 15 && playerTwoScore <= 30) {
+            playerTwoScore += 15;
+           } else if (playerTwoScore == 30 && playerTwoScore <= 40){
+            playerTwoScore += 10;
+           } else {
+            playerTwoScore = 1;
+            // alert("Player Two Wins!");
+           }
+        updateScore();
+        createTennisBall();
+        return;
+    }
+    if(tennisBallX >= gameWidth) {
+       if(playerOneScore == 0 && playerOneScore <= 15) {
+        playerOneScore += 15;
+       } else if (playerOneScore == 15 && playerOneScore <= 30) {
+        playerOneScore += 15;
+       } else if (playerOneScore == 30 && playerOneScore <= 40){
+        playerOneScore += 10;
+       } else {
+        playerOneScore = 1;
+        // alert("Player One Wins!");
+       }
+        updateScore();
+        createTennisBall();
+        return;
+    }
+
+    // logic when the ball hits the racket it bounces
+    if(tennisBallX <= (racketOne.x + racketOne.width + ballRadius)) {
+        if(tennisBallY > racketOne.y && tennisBallY < racketOne.y + racketOne.height) {
+            tennisBallX = (racketOne.x + racketOne.width) + ballRadius; // logic to prevent ball getting stuck
+            tennisBallXDirection *= -1;
+            ballSpeed += 1;
+        }
+    }
+    if(tennisBallX >= (racketTwo.x - ballRadius)) {
+        if(tennisBallY > racketTwo.y && tennisBallY < racketTwo.y + racketTwo.height) {
+            tennisBallXDirection *= -1;
+            ballSpeed += 1;
+        }
+    }
+};
+//==================
+
+
+// ===========
+// Scoring Function context
+// ===========
+function updateScore(){
+    scoreCourt.textContent = `${playerOneScore} : ${playerTwoScore}`;
+};
+// ===========
+
+// ===========
+// Reset the Game Button function
+// ===========
+function resetGame(){
+    playerOneScore = 0;
+    playerTwoScore = 0;
+    racketOne = {
+        width: 25,
+        height: 100,
+        x:0,
+        y:0
+    };
+    racketTwo = {
+        width: 25,
+        height: 100,
+        x: gameWidth - 25,
+        y: gameHeight - 100
+    };
+    ballSpeed = 1;
+    ballX = 0;
+    ballY = 0;
+    tennisBallXDirection = 0;
+    tennisBallYDirection = 0;
+    updateScore();
+    clearInterval(intervalID);
+    gameStart()
+};
+// ===========
+

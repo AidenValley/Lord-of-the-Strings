@@ -1,3 +1,7 @@
+body {
+    backdrop-filter: brightness(80%);
+}
+
 #game-container {
     text-align: center;
 }
