@@ -42,6 +42,8 @@ tennisRacket_image.src = "SpikeRacket.png";
 const tennisRacketSwing_image = new Image();
 tennisRacketSwing_image.src = "SpikeRacket_right.png";
 
+const tennisRacketSwingTwo_image = new Image();
+tennisRacketSwingTwo_image.src = "SpikeRacket_swing.png";
 //
 const timeRacket = 1000;
 
@@ -50,7 +52,7 @@ let racketOne = {
     // swingtimer, lastupdated, saves the time, 
     width: 100,
     height: 100,
-    x:-25,
+    x: 5,
     y:0,
     racketImage: tennisRacket_image,
     lastUpdated: new Date().getTime()
@@ -58,7 +60,7 @@ let racketOne = {
 let racketTwo = {
     width: 100,
     height: 100,
-    x: gameWidth - 70,
+    x: gameWidth - 110,
     y: gameHeight - 150,
     racketImage: tennisRacket_image,
     lastUpdated: new Date().getTime()
@@ -174,7 +176,7 @@ function drawTennisBall(tennisBallX, tennisBallY){
     tennisContext.fill();
 };
 function createTennisBall(){
-    ballSpeed = 1;
+    ballSpeed = 2;
 
     if(Math.round(Math.random()) == 1){
         tennisBallXDirection = 1;
@@ -251,7 +253,7 @@ function checkCollision(){
         if(tennisBallY > racketTwo.y && tennisBallY < racketTwo.y + racketTwo.height) {
             tennisBallXDirection *= -1;
             ballSpeed += 1;
-            racketTwo.racketImage = tennisRacketSwing_image;
+            racketTwo.racketImage = tennisRacketSwingTwo_image;
             racketTwo.lastUpdated = new Date().getTime();
         }
     }
@@ -274,16 +276,20 @@ function resetGame(){
     playerOneScore = 0;
     playerTwoScore = 0;
     racketOne = {
-        width: 25,
+        width: 100,
         height: 100,
-        x:0,
-        y:0
+        x: 5,
+        y:0,
+        racketImage: tennisRacket_image,
+        // lastUpdated: new Date().getTime()
     };
     racketTwo = {
-        width: 25,
+        width: 100,
         height: 100,
-        x: gameWidth - 25,
-        y: gameHeight - 100
+        x: gameWidth - 110,
+        y: gameHeight - 150,
+        racketImage: tennisRacket_image,
+        // lastUpdated: new Date().getTime()
     };
     ballSpeed = 1;
     ballX = 0;
@@ -291,7 +297,7 @@ function resetGame(){
     tennisBallXDirection = 0;
     tennisBallYDirection = 0;
     updateScore();
-    clearInterval(intervalID);
+    // clearInterval(intervalID);
     gameStart()
 };
 // ===========
