@@ -14,7 +14,7 @@ const resetButton = document.querySelector('#resetButton');
 const gameWidth = tennisCanvas.width;
 const gameHeight = tennisCanvas.height;
 // ideas of CSS color properties
-const courtBackground = 'yellowgreen';
+const courtBackground = '#A5E08D';
 const racket1Color = 'skyblue';
 const racket2Color = 'orange';
 const racketBorder = 'black';
@@ -34,18 +34,34 @@ let tennisBallYDirection = 0;
 // Initial score sets of a player one and two.
 let playerOneScore = 0;
 let playerTwoScore = 0;
+
+// Spike Racket images variables
+const tennisRacket_image = new Image();
+tennisRacket_image.src = "SpikeRacket.png";
+
+const tennisRacketSwing_image = new Image();
+tennisRacketSwing_image.src = "SpikeRacket_right.png";
+
+//
+const timeRacket = 1000;
+
 // racketOne and racketTwo racket sizes
 let racketOne = {
-    width: 25,
+    // swingtimer, lastupdated, saves the time, 
+    width: 100,
     height: 100,
-    x:0,
-    y:0
+    x:-25,
+    y:0,
+    racketImage: tennisRacket_image,
+    lastUpdated: new Date().getTime()
 };
 let racketTwo = {
-    width: 25,
+    width: 100,
     height: 100,
-    x: gameWidth - 25,
-    y: gameHeight - 100
+    x: gameWidth - 70,
+    y: gameHeight - 150,
+    racketImage: tennisRacket_image,
+    lastUpdated: new Date().getTime()
 };
 tennisCanvas.width = 1000;
 tennisCanvas.height = 500;
@@ -69,14 +85,11 @@ function gameStart(){ // the game begins with a createTennisBall() and nextTick(
     nextTick();
 };
 function nextTick(){
-    intervalID = setTimeout(() => {
         clearCourt();
         drawRackets();
         moveTennisBall();
         drawTennisBall(tennisBallX, tennisBallY);
         checkCollision();
-        nextTick();
-    }, 10)
 };
 function clearCourt(){ // initial setup of the tennis court
     tennisContext.fillStyle = courtBackground;
@@ -88,14 +101,30 @@ function clearCourt(){ // initial setup of the tennis court
 // function that represents the two player racket icons in the game
 function drawRackets(){
     tennisContext.strokeStyle = racketBorder;
+    const gameTime = new Date().getTime();
+    // setting time
+    if(racketOne.lastUpdated + timeRacket < gameTime) {
+        racketOne.racketImage = tennisRacket_image;
+    } 
+    tennisContext.drawImage(racketOne.racketImage, racketOne.x, racketOne.y, racketOne.width, racketOne.height);
+    if(racketTwo.lastUpdated + timeRacket < gameTime) {
+        racketTwo.racketImage = tennisRacket_image;
+        // tennisContext.save();
+        // tennisContext.rotate(180);
+        // tennisContext.translate(-200, 0);
+        // tennisContext.drawImage(racketTwo.racketImage, racketTwo.x, racketTwo.y, racketTwo.width, racketTwo.height);
+        // tennisContext.restore();
+    }
+    tennisContext.drawImage(racketTwo.racketImage, racketTwo.x, racketTwo.y, racketTwo.width, racketTwo.height);
+    
+    // tennisRacket_image = new Image();
+    // tennisRacket_image.src = "SpikeRacket.png";
 
-    tennisContext.fillStyle = racket1Color;
-    tennisContext.fillRect(racketOne.x, racketOne.y, racketOne.width, racketOne.height);
-    tennisContext.strokeRect(racketOne.x, racketOne.y, racketOne.width, racketOne.height);
-
-    tennisContext.fillStyle = racket2Color;
-    tennisContext.fillRect(racketTwo.x, racketTwo.y, racketTwo.width, racketTwo.height);
-    tennisContext.strokeRect(racketTwo.x, racketTwo.y, racketTwo.width, racketTwo.height);
+    // create another variables, and check in the collision function
+// tennisRacket_image.onload = function() {
+// left and right rackets are convereted to the Spike Racket.
+    
+    
 };
 function changeDirection(event){
     const keyPress = event.keyCode;
@@ -146,6 +175,7 @@ function drawTennisBall(tennisBallX, tennisBallY){
 };
 function createTennisBall(){
     ballSpeed = 1;
+
     if(Math.round(Math.random()) == 1){
         tennisBallXDirection = 1;
     } else {
@@ -165,6 +195,11 @@ function moveTennisBall(){
     tennisBallY += (ballSpeed * tennisBallYDirection);
 };
 function checkCollision(){
+    // updatedtime, 
+    tennisContext.strokeStyle = racketBorder;
+    // tennisRacketSwing_image = new Image();
+    // tennisRacketSwing_image.src = "SpikeRacket_right.png";
+
     if(tennisBallY <= 0 + ballRadius) {
         tennisBallYDirection *= -1;
     }
@@ -208,12 +243,16 @@ function checkCollision(){
             tennisBallX = (racketOne.x + racketOne.width) + ballRadius; // logic to prevent ball getting stuck
             tennisBallXDirection *= -1;
             ballSpeed += 1;
+            racketOne.racketImage = tennisRacketSwing_image;
+            racketOne.lastUpdated = new Date().getTime();
         }
     }
     if(tennisBallX >= (racketTwo.x - ballRadius)) {
         if(tennisBallY > racketTwo.y && tennisBallY < racketTwo.y + racketTwo.height) {
             tennisBallXDirection *= -1;
             ballSpeed += 1;
+            racketTwo.racketImage = tennisRacketSwing_image;
+            racketTwo.lastUpdated = new Date().getTime();
         }
     }
 };
@@ -256,4 +295,4 @@ function resetGame(){
     gameStart()
 };
 // ===========
-
+setInterval(nextTick, 10);
