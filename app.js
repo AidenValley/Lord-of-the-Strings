@@ -14,7 +14,7 @@ const resetButton = document.querySelector('#resetButton');
 const gameWidth = tennisCanvas.width;
 const gameHeight = tennisCanvas.height;
 // ideas of CSS color properties
-const courtBackground = '#A5E08D';
+const courtBackground = '#2e8b57';
 const racket1Color = 'skyblue';
 const racket2Color = 'orange';
 const racketBorder = 'black';
@@ -84,6 +84,7 @@ gameStart();
 // ===========
 function gameStart(){ // the game begins with a createTennisBall() and nextTick() function
     createTennisBall();
+    drawLines();
     nextTick();
 };
 function nextTick(){
@@ -93,11 +94,28 @@ function nextTick(){
         drawTennisBall(tennisBallX, tennisBallY);
         checkCollision();
 };
+function drawLines(){
+    if (!tennisCanvas.getContext) {
+        return;
+    }
+    const tennisContext = tennisCanvas.getContext('2d');
+
+    tennisContext.strokeStyle = 'black';
+    tennisContext.lineWidth = 5;
+
+    tennisContext.beginPath();
+    tennisContext.moveTo(100, 100);
+    tennisContext.lineTo(300, 100);
+    tennisContext.stroke();
+
+}
+
 function clearCourt(){ // initial setup of the tennis court
     tennisContext.fillStyle = courtBackground;
     tennisContext.fillRect(0, 0, gameWidth, gameHeight);
 };
 // ===========
+
 // Racket functions
 // ===========
 // function that represents the two player racket icons in the game
@@ -176,7 +194,7 @@ function drawTennisBall(tennisBallX, tennisBallY){
     tennisContext.fill();
 };
 function createTennisBall(){
-    ballSpeed = 2;
+    ballSpeed = 1;
 
     if(Math.round(Math.random()) == 1){
         tennisBallXDirection = 1;
@@ -186,7 +204,7 @@ function createTennisBall(){
     if(Math.round(Math.random()) == 1){
         tennisBallYDirection = 1;
     } else {    
-        tennisBallYDirection = -1;
+        tennisBallYDirection = 1;
     }
     tennisBallX = gameWidth / 2;
     tennisBallY = gameHeight / 2;
