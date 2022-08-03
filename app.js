@@ -96,6 +96,7 @@ function nextTick(){
         drawCenterLine();
         drawInnerCourtLineTop();
         drawInnerCourtLineBottom();
+        drawSinglesCourtLineOne();
 };
 function clearCourt(){ // initial setup of the tennis court
     tennisContext.fillStyle = courtBackground;
@@ -126,6 +127,14 @@ function drawInnerCourtLineBottom(){
     tennisContext.beginPath();
     tennisContext.moveTo(0, 440);
     tennisContext.lineTo(1000, 440);
+    tennisContext.stroke();
+}
+function drawSinglesCourtLineOne(){
+    tennisContext.strokeStyle = 'White';
+    tennisContext.lineWidth = 3 ;
+    tennisContext.beginPath();
+    tennisContext.moveTo(250, 100);
+    tennisContext.lineTo(250, 1000);
     tennisContext.stroke();
 }
 // Racket functions
