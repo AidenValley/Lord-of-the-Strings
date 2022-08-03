@@ -22,11 +22,10 @@ Git HTTPS: https://github.com/AidenValley/Lord-of-the-Strings.git
 This project was designed to only use HTML, CSS, and JavaScript without any frameworks or external libraries.
 
 -Pseudocode structures-
-
-- Game Infrastructure -
 ![lordstring - pseudocode](https://user-images.githubusercontent.com/107300143/182530007-0f3e7e9b-f56a-4de0-abb8-5c6dee7d1c4e.png)
 
 
+- Game Infrastructure -
   - This game will render in HTML Canvas   
 ![image](https://user-images.githubusercontent.com/107300143/180627184-ca252742-48d8-4c3e-ab60-db178acf5b88.png)
 
