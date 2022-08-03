@@ -94,22 +94,40 @@ function nextTick(){
         drawTennisBall(tennisBallX, tennisBallY);
         checkCollision();
         drawCenterLine();
+        drawInnerCourtLineTop();
+        drawInnerCourtLineBottom();
 };
-function drawCenterLine(){
-    tennisContext.strokeStyle = 'Black';
-    tennisContext.lineWidth = 10;
-    tennisContext.beginPath();
-    tennisContext.moveTo(500, 500);
-    tennisContext.lineTo(500, 0);
-    tennisContext.stroke();
-}
-
 function clearCourt(){ // initial setup of the tennis court
     tennisContext.fillStyle = courtBackground;
     tennisContext.fillRect(0, 0, gameWidth, gameHeight);
 };
 // ===========
 
+// Line drawings functions
+function drawCenterLine(){
+    tennisContext.strokeStyle = 'Black';
+    tennisContext.lineWidth = 7;
+    tennisContext.beginPath();
+    tennisContext.moveTo(500, 500);
+    tennisContext.lineTo(500, 0);
+    tennisContext.stroke();
+}
+function drawInnerCourtLineTop(){
+    tennisContext.strokeStyle = 'White';
+    tennisContext.lineWidth = 3 ;
+    tennisContext.beginPath();
+    tennisContext.moveTo(0, 60);
+    tennisContext.lineTo(1000, 60);
+    tennisContext.stroke();
+}
+function drawInnerCourtLineBottom(){
+    tennisContext.strokeStyle = 'White';
+    tennisContext.lineWidth = 3 ;
+    tennisContext.beginPath();
+    tennisContext.moveTo(0, 440);
+    tennisContext.lineTo(1000, 440);
+    tennisContext.stroke();
+}
 // Racket functions
 // ===========
 // function that represents the two player racket icons in the game
