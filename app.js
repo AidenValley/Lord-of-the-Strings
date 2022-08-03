@@ -8,7 +8,8 @@ console.log('lord of the strings');
 // Initial creation of the variables of each elements in HTML.
 const tennisCanvas = document.querySelector('#game');
 const tennisContext = tennisCanvas.getContext('2d');
-const scoreCourt = document.querySelector('#score-screen');
+const scoreCourtLeft = document.querySelector('#score-screen-left');
+const scoreCourtRight = document.querySelector('#score-screen-right');
 const resetButton = document.querySelector('#resetButton');
 // canvas size
 const gameWidth = tennisCanvas.width;
@@ -84,7 +85,6 @@ gameStart();
 // ===========
 function gameStart(){ // the game begins with a createTennisBall() and nextTick() function
     createTennisBall();
-    drawLines();
     nextTick();
 };
 function nextTick(){
@@ -93,21 +93,15 @@ function nextTick(){
         moveTennisBall();
         drawTennisBall(tennisBallX, tennisBallY);
         checkCollision();
+        drawCenterLine();
 };
-function drawLines(){
-    if (!tennisCanvas.getContext) {
-        return;
-    }
-    const tennisContext = tennisCanvas.getContext('2d');
-
-    tennisContext.strokeStyle = 'black';
-    tennisContext.lineWidth = 5;
-
+function drawCenterLine(){
+    tennisContext.strokeStyle = 'Black';
+    tennisContext.lineWidth = 10;
     tennisContext.beginPath();
-    tennisContext.moveTo(100, 100);
-    tennisContext.lineTo(300, 100);
+    tennisContext.moveTo(500, 500);
+    tennisContext.lineTo(500, 0);
     tennisContext.stroke();
-
 }
 
 function clearCourt(){ // initial setup of the tennis court
@@ -129,11 +123,6 @@ function drawRackets(){
     tennisContext.drawImage(racketOne.racketImage, racketOne.x, racketOne.y, racketOne.width, racketOne.height);
     if(racketTwo.lastUpdated + timeRacket < gameTime) {
         racketTwo.racketImage = tennisRacket_image;
-        // tennisContext.save();
-        // tennisContext.rotate(180);
-        // tennisContext.translate(-200, 0);
-        // tennisContext.drawImage(racketTwo.racketImage, racketTwo.x, racketTwo.y, racketTwo.width, racketTwo.height);
-        // tennisContext.restore();
     }
     tennisContext.drawImage(racketTwo.racketImage, racketTwo.x, racketTwo.y, racketTwo.width, racketTwo.height);
     
@@ -283,7 +272,8 @@ function checkCollision(){
 // Scoring Function context
 // ===========
 function updateScore(){
-    scoreCourt.textContent = `${playerOneScore} : ${playerTwoScore}`;
+    scoreCourtLeft.textContent = `${playerOneScore}`;
+    scoreCourtRight.textContent = `${playerTwoScore}`;
 };
 // ===========
 
