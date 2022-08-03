@@ -96,7 +96,9 @@ function nextTick(){
         drawCenterLine();
         drawInnerCourtLineTop();
         drawInnerCourtLineBottom();
-        drawSinglesCourtLineOne();
+        drawAcrossCourtLine();
+        drawSingleCourtLineOne();
+        drawSingleCourtLineTwo();
 };
 function clearCourt(){ // initial setup of the tennis court
     tennisContext.fillStyle = courtBackground;
@@ -129,12 +131,31 @@ function drawInnerCourtLineBottom(){
     tennisContext.lineTo(1000, 440);
     tennisContext.stroke();
 }
-function drawSinglesCourtLineOne(){
+function drawAcrossCourtLine(){
     tennisContext.strokeStyle = 'White';
     tennisContext.lineWidth = 3 ;
     tennisContext.beginPath();
-    tennisContext.moveTo(250, 100);
-    tennisContext.lineTo(250, 1000);
+    tennisContext.moveTo(250, 250);
+    tennisContext.lineTo(300, 250);
+    tennisContext.lineTo(740, 250);
+    tennisContext.stroke();
+}
+function drawSingleCourtLineOne(){
+    tennisContext.strokeStyle = 'White';
+    tennisContext.lineWidth = 3 ;
+    tennisContext.beginPath();
+    tennisContext.moveTo(250, 60);
+    tennisContext.lineTo(250, 440);
+    // tennisContext.lineTo(740, 250);
+    tennisContext.stroke();
+}
+function drawSingleCourtLineTwo(){
+    tennisContext.strokeStyle = 'White';
+    tennisContext.lineWidth = 3 ;
+    tennisContext.beginPath();
+    tennisContext.moveTo(740, 60);
+    tennisContext.lineTo(740, 440);
+    // tennisContext.lineTo(740, 250);
     tennisContext.stroke();
 }
 // Racket functions
