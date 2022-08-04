@@ -362,5 +362,8 @@ function resetGame(){
     gameStart();
 };
 
+
+// Reset button eventListener 
+resetButton.addEventListener('click', resetGame);
 // ===========
 setInterval(nextTick, 10);
