@@ -75,7 +75,7 @@ tennisCanvas.height = 500;
 // addEventlistener
 //=============
 window.addEventListener('keydown', changeDirection);
-resetButton.addEventListener('click', resetGame);
+
 
 // function 
 gameStart();
@@ -89,24 +89,26 @@ function gameStart(){ // the game begins with a createTennisBall() and nextTick(
 };
 function nextTick(){
         clearCourt();
-        drawRackets();
-        moveTennisBall();
-        drawTennisBall(tennisBallX, tennisBallY);
-        checkCollision();
         drawCenterLine();
         drawInnerCourtLineTop();
         drawInnerCourtLineBottom();
         drawAcrossCourtLine();
         drawSingleCourtLineOne();
         drawSingleCourtLineTwo();
+        drawRackets();
+        moveTennisBall();
+        drawTennisBall(tennisBallX, tennisBallY);
+        checkCollision();
+         
 };
 function clearCourt(){ // initial setup of the tennis court
     tennisContext.fillStyle = courtBackground;
     tennisContext.fillRect(0, 0, gameWidth, gameHeight);
+    
 };
-// ===========
+// ================
 
-// Line drawings functions
+// Line drawings for the tennis court functions
 function drawCenterLine(){
     tennisContext.strokeStyle = 'Black';
     tennisContext.lineWidth = 7;
@@ -158,6 +160,8 @@ function drawSingleCourtLineTwo(){
     // tennisContext.lineTo(740, 250);
     tennisContext.stroke();
 }
+// =================
+
 // Racket functions
 // ===========
 // function that represents the two player racket icons in the game
@@ -173,15 +177,10 @@ function drawRackets(){
         racketTwo.racketImage = tennisRacket_image;
     }
     tennisContext.drawImage(racketTwo.racketImage, racketTwo.x, racketTwo.y, racketTwo.width, racketTwo.height);
-    
-    // tennisRacket_image = new Image();
-    // tennisRacket_image.src = "SpikeRacket.png";
 
     // create another variables, and check in the collision function
 // tennisRacket_image.onload = function() {
 // left and right rackets are convereted to the Spike Racket.
-    
-    
 };
 function changeDirection(event){
     const keyPress = event.keyCode;
@@ -221,6 +220,13 @@ function changeDirection(event){
 // ===========
 // actual physical tennisball looking structure on the page
 function drawTennisBall(tennisBallX, tennisBallY){
+    //  ball shadow, bigger than the ball radius, 
+    tennisContext.fillStyle = 'grey';
+    tennisContext.beginPath();
+    const shadowRadius = (ballRadius * 2) - Math.abs((tennisCanvas.width / 2) - tennisBallX) / 20;
+    tennisContext.arc(tennisBallX, tennisBallY, shadowRadius, 0, 2 * Math.PI); 
+    tennisContext.fill();
+
     tennisContext.fillStyle = ballColor;
     tennisContext.strokeStyle = ballBorder;
     tennisContext.lineWidth = 2;
@@ -263,6 +269,20 @@ function checkCollision(){
     if(tennisBallY >= gameHeight - ballRadius) {
         tennisBallYDirection *= -1;
     }
+    if(tennisBallX >= gameWidth) {
+        if(playerOneScore == 0 && playerOneScore <= 15) {
+         playerOneScore += 15;
+        } else if (playerOneScore == 15 && playerOneScore <= 30) {
+         playerOneScore += 15;
+        } else if (playerOneScore == 30 && playerOneScore <= 40){
+         playerOneScore += 10;
+        } else {
+         playerOneScore = 1;
+        }
+         updateScore();
+         createTennisBall();
+         return;
+     }
     if(tennisBallX <= 0) { // this is the scoring logic added/implemented the tennis scoring rule.
         if(playerTwoScore == 0 && playerTwoScore <= 15) {
             playerTwoScore += 15;
@@ -272,28 +292,13 @@ function checkCollision(){
             playerTwoScore += 10;
            } else {
             playerTwoScore = 1;
-            // alert("Player Two Wins!");
            }
+        
         updateScore();
         createTennisBall();
         return;
     }
-    if(tennisBallX >= gameWidth) {
-       if(playerOneScore == 0 && playerOneScore <= 15) {
-        playerOneScore += 15;
-       } else if (playerOneScore == 15 && playerOneScore <= 30) {
-        playerOneScore += 15;
-       } else if (playerOneScore == 30 && playerOneScore <= 40){
-        playerOneScore += 10;
-       } else {
-        playerOneScore = 1;
-        // alert("Player One Wins!");
-       }
-        updateScore();
-        createTennisBall();
-        return;
-    }
-
+    
     // logic when the ball hits the racket it bounces
     if(tennisBallX <= (racketOne.x + racketOne.width + ballRadius)) {
         if(tennisBallY > racketOne.y && tennisBallY < racketOne.y + racketOne.height) {
@@ -336,7 +341,7 @@ function resetGame(){
         height: 100,
         x: 5,
         y:0,
-        racketImage: tennisRacket_image,
+        racketImage: tennisRacket_image
         // lastUpdated: new Date().getTime()
     };
     racketTwo = {
@@ -344,7 +349,7 @@ function resetGame(){
         height: 100,
         x: gameWidth - 110,
         y: gameHeight - 150,
-        racketImage: tennisRacket_image,
+        racketImage: tennisRacket_image
         // lastUpdated: new Date().getTime()
     };
     ballSpeed = 1;
@@ -354,7 +359,8 @@ function resetGame(){
     tennisBallYDirection = 0;
     updateScore();
     // clearInterval(intervalID);
-    gameStart()
+    gameStart();
 };
+
 // ===========
 setInterval(nextTick, 10);
