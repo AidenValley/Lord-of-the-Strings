@@ -45,6 +45,9 @@ tennisRacketSwing_image.src = "SpikeRacket_right.png";
 
 const tennisRacketSwingTwo_image = new Image();
 tennisRacketSwingTwo_image.src = "SpikeRacket_swing.png";
+
+const tennisBall_image = new Image();
+tennisBall_image.src = "tennisball-png.jpg"; 
 //
 const timeRacket = 1000;
 
@@ -224,9 +227,10 @@ function drawTennisBall(tennisBallX, tennisBallY){
     tennisContext.fillStyle = 'grey';
     tennisContext.beginPath();
     const shadowRadius = (ballRadius * 2) - Math.abs((tennisCanvas.width / 2) - tennisBallX) / 20;
-    tennisContext.arc(tennisBallX, tennisBallY, shadowRadius, 0, 2 * Math.PI); 
+    tennisContext.ellipse(tennisBallX, tennisBallY, 30, 30, shadowRadius, 10, 2 * Math.PI); 
+    tennisContext.arc(tennisBallX, tennisBallY, shadowRadius, 0, 2 * Math.PI);
     tennisContext.fill();
-
+    
     tennisContext.fillStyle = ballColor;
     tennisContext.strokeStyle = ballBorder;
     tennisContext.lineWidth = 2;
@@ -235,16 +239,18 @@ function drawTennisBall(tennisBallX, tennisBallY){
     tennisContext.arc(tennisBallX, tennisBallY, ballRadius, 0, 2 * Math.PI); 
     tennisContext.stroke();
     tennisContext.fill();
+
+    
 };
 function createTennisBall(){
     ballSpeed = 1;
 
-    if(Math.round(Math.random()) == 1){
+    if(Math.round(Math.random()) === 1){
         tennisBallXDirection = 1;
     } else {
         tennisBallXDirection = -1;
     }
-    if(Math.round(Math.random()) == 1){
+    if(Math.round(Math.random()) === 1){
         tennisBallYDirection = 1;
     } else {    
         tennisBallYDirection = 1;
