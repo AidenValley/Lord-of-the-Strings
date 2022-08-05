@@ -1,5 +1,6 @@
 body {
-    
+    text-align: center;
+    background: #A6E7FF;
 }
 #canvas-wrap {
     position: relative;
@@ -10,9 +11,14 @@ body {
 }
 #game-title {
     font-size: 30px;
+    font-family: 'Dancing Script', cursive;
 }
 #game {
     border: 4px solid;
+    position: relative;
+    /* z-index: 20; */
+    border-radius: 10px; 
+    box-shadow: 0 10px 10px 40px #50BFE6;
 }
 #score-screen-left {
     font-family: Georgia, 'Times New Roman', Times, serif;
@@ -32,7 +38,9 @@ body {
 
 #reset-container {
     text-align: center;
-    position: relative;
+    position: absolute;
+    top: 455px;
+    right: 705px;
 }
 #resetButton {
     background-color: rgba(255, 255, 0, 0.651);
@@ -44,6 +52,9 @@ body {
     cursor: pointer;
     width: 110px;
     height: 50px;
+}
+#resetButton:hover {
+    box-shadow: 0 2px 2px 5px rgba(255, 255, 0, 0.651);
 }
 
 

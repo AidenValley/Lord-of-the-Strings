@@ -16,12 +16,10 @@ const gameWidth = tennisCanvas.width;
 const gameHeight = tennisCanvas.height;
 // ideas of CSS color properties
 const courtBackground = '#2e8b57';
-const racket1Color = 'skyblue';
-const racket2Color = 'orange';
-const racketBorder = 'black';
-const ballColor = 'yellow';
+const racketBorder = 'white';
+const ballColor = 'rgba(223,255,79)';
 const ballBorder = 'black';
-const ballRadius = 12.5;
+const ballRadius = 10.5;
 const racketSpeed = 50;
 let IntervalID;
 // slowest speed set
@@ -100,8 +98,9 @@ function nextTick(){
         drawSingleCourtLineTwo();
         drawRackets();
         moveTennisBall();
-        drawTennisBall(tennisBallX, tennisBallY);
         checkCollision();
+        drawTennisBall(tennisBallX, tennisBallY);
+        
          
 };
 function clearCourt(){ // initial setup of the tennis court
@@ -223,12 +222,11 @@ function changeDirection(event){
 // ===========
 // actual physical tennisball looking structure on the page
 function drawTennisBall(tennisBallX, tennisBallY){
-    //  ball shadow, bigger than the ball radius, 
-    tennisContext.fillStyle = 'grey';
+    tennisContext.fillStyle = 'rgba(223,255,79)';
+    // 'rgba(300,290,79)';
     tennisContext.beginPath();
-    const shadowRadius = (ballRadius * 2) - Math.abs((tennisCanvas.width / 2) - tennisBallX) / 20;
-    tennisContext.ellipse(tennisBallX, tennisBallY, 30, 30, shadowRadius, 10, 2 * Math.PI); 
-    tennisContext.arc(tennisBallX, tennisBallY, shadowRadius, 0, 2 * Math.PI);
+    const shadowRadius = (ballRadius) - Math.abs((tennisCanvas.width / 2) - (tennisBallY)) / 12; // ball spin 
+    tennisContext.ellipse(tennisBallX, tennisBallY, 13, 13, shadowRadius, 29, 3 * Math.PI); 
     tennisContext.fill();
     
     tennisContext.fillStyle = ballColor;
@@ -237,7 +235,6 @@ function drawTennisBall(tennisBallX, tennisBallY){
     tennisContext.beginPath();
     // arc method that includes BallX and BallY, targeting ballRadius with Math.PI(3.14159) property.
     tennisContext.arc(tennisBallX, tennisBallY, ballRadius, 0, 2 * Math.PI); 
-    tennisContext.stroke();
     tennisContext.fill();
 
     
