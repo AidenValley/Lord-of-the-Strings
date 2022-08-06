@@ -18,7 +18,7 @@ Git Clone SSH key: git@github.com:AidenValley/Lord-of-the-Strings.git
 - Hosted Website: 
 
 Please see below website.
-
+https://aidenvalley.github.io/Lord-of-the-Strings/
 
 - Technologies
 
