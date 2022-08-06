@@ -10,6 +10,11 @@ Lord of the Strings is a dynamic 2D tennis simulation game that allows the playe
 4. Win Third point, 40:0
 5. Win fourth point, WINS the game and 1:0 
 
+- Game keys 
+
+  1. Player One key - 'W , S'
+  2. Player Two key - '↑ , ↓'
+
 - Installation
 
 Installation is NOT required for its access. Please use either of the following,
