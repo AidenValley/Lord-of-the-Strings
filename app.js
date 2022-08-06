@@ -8,36 +8,6 @@
 // ===========
 // Initial VARIABLES
 //=============
-
-// Initial creation of the variables of each elements in HTML.
-const tennisCanvas = document.querySelector('#game');
-const tennisContext = tennisCanvas.getContext('2d');
-const scoreCourtLeft = document.querySelector('#score-screen-left');
-const scoreCourtRight = document.querySelector('#score-screen-right');
-const resetButton = document.querySelector('#resetButton');
-// canvas size
-const gameWidth = tennisCanvas.width;
-const gameHeight = tennisCanvas.height;
-// ideas of CSS color properties
-const courtBackground = '#2e8b57';
-const racketBorder = 'white';
-const ballColor = 'rgba(223,255,79)';
-const ballBorder = 'black';
-const ballRadius = 10.5;
-const racketSpeed = 50;
-let IntervalID;
-// slowest speed set
-let ballSpeed = 1;
-// tennis ball 
-let tennisBallX = gameWidth / 2;
-let tennisBallY = gameHeight / 2;
-// Ball direction sets
-let tennisBallXDirection = 0;
-let tennisBallYDirection = 0;
-// Initial score sets of a player one and two.
-let playerOneScore = 0;
-let playerTwoScore = 0;
-
 // Spike Racket images variables
 const tennisRacket_image = new Image();
 tennisRacket_image.src = "SpikeRacket.png";
@@ -50,6 +20,37 @@ tennisRacketSwingTwo_image.src = "SpikeRacket_swing.png";
 
 const tennisBall_image = new Image();
 tennisBall_image.src = "tennisball-png.jpg";
+
+// Initial creation of the variables of each elements in HTML.
+const tennisCanvas = document.querySelector('#game');
+const tennisContext = tennisCanvas.getContext('2d');
+const scoreCourtLeft = document.querySelector('#score-screen-left');
+const scoreCourtRight = document.querySelector('#score-screen-right');
+const resetButton = document.querySelector('#resetButton');
+
+// canvas size
+const gameWidth = tennisCanvas.width;
+const gameHeight = tennisCanvas.height;
+
+// ideas of CSS color properties
+const ballColor = 'rgba(223,255,79)';
+const ballBorder = 'black';
+const ballRadius = 10.5;
+const racketSpeed = 50;
+const courtBackground = '#2e8b57';
+const racketBorder = 'white';
+
+// slowest speed set
+let ballSpeed = 1;
+// tennis ball 
+let tennisBallX = gameWidth / 2;
+let tennisBallY = gameHeight / 2;
+// Ball direction sets
+let tennisBallXDirection = 0;
+let tennisBallYDirection = 0;
+// Initial score sets of a player one and two.
+let playerOneScore = 0;
+let playerTwoScore = 0;
 //
 const timeRacket = 1000;
 
@@ -174,7 +175,7 @@ function drawSingleCourtLineTwo() {
 function drawRackets() {
     tennisContext.strokeStyle = racketBorder;
     const gameTime = new Date().getTime();
-    // setting time
+    // setting time,
     if (racketOne.lastUpdated + timeRacket < gameTime) {
         racketOne.racketImage = tennisRacket_image;
     }
@@ -184,17 +185,15 @@ function drawRackets() {
     }
     tennisContext.drawImage(racketTwo.racketImage, racketTwo.x, racketTwo.y, racketTwo.width, racketTwo.height);
 
-    // create another variables, and check in the collision function
-    // tennisRacket_image.onload = function() {
-    // left and right rackets are convereted to the Spike Racket.
 };
 function changeDirection(event) {
+    // variables that determines the speed of the racket movements
     const keyPress = event.keyCode;
     const racketOneUp = 87;
     const racketOneDown = 83;
     const racketTwoUp = 38;
     const racketTwoDown = 40;
-    // console.log(keyPress); able to indicate the numbers for racketOne and racketDown
+    // switch statement that explains both rackets up and down movements using x and y coordinates
     switch (keyPress) {
         case (racketOneUp):
             if (racketOne.y > 0) {
@@ -229,8 +228,9 @@ function drawTennisBall(tennisBallX, tennisBallY) {
     tennisContext.fillStyle = 'rgba(223,255,79)';
     // 'rgba(300,290,79)';
     tennisContext.beginPath();
-    const shadowRadius = (ballRadius) - Math.abs((tennisCanvas.width / 2) - (tennisBallY)) / 12; // ball spin 
-    tennisContext.ellipse(tennisBallX, tennisBallY, 13, 13, shadowRadius, 29, 3 * Math.PI);
+    // variable of ball spin 
+    const spinBall = (ballRadius) - Math.abs((tennisCanvas.width / 2) - (tennisBallY)) / 8; // 
+    tennisContext.ellipse(tennisBallX, tennisBallY, 12, 12, spinBall, 29, 3 * Math.PI);
     tennisContext.fill();
 
     tennisContext.fillStyle = ballColor;
@@ -244,8 +244,9 @@ function drawTennisBall(tennisBallX, tennisBallY) {
 
 };
 function createTennisBall() {
+    // setting the ball speeed to 1
     ballSpeed = 1;
-
+    // tennis ball will move random function based on the canvas width and height, also x and y coordinates of its direction.
     if (Math.round(Math.random()) === 1) {
         tennisBallXDirection = 1;
     } else {
@@ -261,22 +262,21 @@ function createTennisBall() {
     drawTennisBall(tennisBallX, tennisBallY);
 };
 function moveTennisBall() {
+    // tennis Ball speed inclement to be faster its movement as per createTennisBall function.
     tennisBallX += (ballSpeed * tennisBallXDirection);
     tennisBallY += (ballSpeed * tennisBallYDirection);
 };
 function checkCollision() {
-    // updatedtime, 
     tennisContext.strokeStyle = racketBorder;
-    // tennisRacketSwing_image = new Image();
-    // tennisRacketSwing_image.src = "SpikeRacket_right.png";
-
+    // initial collision statement when the tennis ball Y movement.
     if (tennisBallY <= 0 + ballRadius) {
         tennisBallYDirection *= -1;
     }
     if (tennisBallY >= gameHeight - ballRadius) {
         tennisBallYDirection *= -1;
     }
-    if (tennisBallX >= gameWidth) {
+    // this is the scoring logic added/implemented the tennis scoring rule.
+    if (tennisBallX >= gameWidth) { 
         if (playerOneScore == 0 && playerOneScore <= 15) {
             playerOneScore += 15;
         } else if (playerOneScore == 15 && playerOneScore <= 30) {
@@ -290,7 +290,8 @@ function checkCollision() {
         createTennisBall();
         return;
     }
-    if (tennisBallX <= 0) { // this is the scoring logic added/implemented the tennis scoring rule.
+    // this is the scoring logic added/implemented the tennis scoring rule.
+    if (tennisBallX <= 0) {
         if (playerTwoScore == 0 && playerTwoScore <= 15) {
             playerTwoScore += 15;
         } else if (playerTwoScore == 15 && playerTwoScore <= 30) {
@@ -309,7 +310,7 @@ function checkCollision() {
     // logic when the ball hits the racket it bounces
     if (tennisBallX <= (racketOne.x + racketOne.width + ballRadius)) {
         if (tennisBallY > racketOne.y && tennisBallY < racketOne.y + racketOne.height) {
-            tennisBallX = (racketOne.x + racketOne.width) + ballRadius; // logic to prevent ball getting stuck
+            tennisBallX = (racketOne.x + racketOne.width) + ballRadius; // logic to preventing the ball getting stuck
             tennisBallXDirection *= -1;
             ballSpeed += 1;
             racketOne.racketImage = tennisRacketSwing_image;
@@ -324,6 +325,7 @@ function checkCollision() {
             racketTwo.lastUpdated = new Date().getTime();
         }
     }
+
 };
 //==================
 
@@ -332,6 +334,7 @@ function checkCollision() {
 // Scoring Function context
 // ===========
 function updateScore() {
+    // This explains and displays the score screens of each side.
     scoreCourtLeft.textContent = `${playerOneScore}`;
     scoreCourtRight.textContent = `${playerTwoScore}`;
 };
@@ -341,6 +344,7 @@ function updateScore() {
 // Reset the Game Button function
 // ===========
 function resetGame() {
+    // once the 'Restart' button clicks, the canvas will turn as following below.
     playerOneScore = 0;
     playerTwoScore = 0;
     racketOne = {
@@ -349,7 +353,6 @@ function resetGame() {
         x: 5,
         y: 0,
         racketImage: tennisRacket_image
-        // lastUpdated: new Date().getTime()
     };
     racketTwo = {
         width: 100,
@@ -357,7 +360,6 @@ function resetGame() {
         x: gameWidth - 110,
         y: gameHeight - 150,
         racketImage: tennisRacket_image
-        // lastUpdated: new Date().getTime()
     };
     ballSpeed = 1;
     ballX = 0;
@@ -365,11 +367,8 @@ function resetGame() {
     tennisBallXDirection = 0;
     tennisBallYDirection = 0;
     updateScore();
-    // clearInterval(intervalID);
     gameStart();
 };
-
-
 // Reset button eventListener 
 resetButton.addEventListener('click', resetGame);
 // ===========
