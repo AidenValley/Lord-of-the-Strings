@@ -283,8 +283,12 @@ function checkCollision() {
             playerOneScore += 15;
         } else if (playerOneScore == 30 && playerOneScore <= 40) {
             playerOneScore += 10;
-        } else {
+        } else if (playerOneScore == 39 && playerOneScore <= 40){
             playerOneScore = 1;
+        } else {
+            alert('Player One Wins!');
+            clearCourt();
+            resetGame();
         }
         updateScore();
         createTennisBall();
@@ -298,10 +302,13 @@ function checkCollision() {
             playerTwoScore += 15;
         } else if (playerTwoScore == 30 && playerTwoScore <= 40) {
             playerTwoScore += 10;
-        } else {
+        } else if (playerTwoScore == 39 && playerTwoScore <= 40){
             playerTwoScore = 1;
+        } else {
+            alert('Player Two Wins!');
+            clearCourt();
+            resetGame();
         }
-
         updateScore();
         createTennisBall();
         return;
